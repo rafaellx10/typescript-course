@@ -21,6 +21,8 @@ class NegociacaoController {
 		);
 		this._negociacoes.adiciona(negociacao);
 
+		this._negociacoes.paraArray().length = 0;
+
 		this._negociacoes.paraArray().forEach(negociacao => {
 			console.log(negociacao.data);
 			console.log(negociacao.quantidade);
