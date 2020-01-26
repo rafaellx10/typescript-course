@@ -33,7 +33,16 @@ export class NegociacaoController {
 			parseInt(this._inputQuantidade.val()),
 			parseFloat(this._inputValor.val())
 		);
+
+		// console.log(
+		// 	`Data: ${negociacao.data},
+		// 	Quantidade: ${negociacao.quantidade},
+		// 	Valor: ${negociacao.valor},
+		// 	Volume: ${negociacao.volume}`
+		// );
+		negociacao.paraTexto();
 		this._negociacoes.adiciona(negociacao);
+		this._negociacoes.paraTexto();
 
 		this._negociacoesView.update(this._negociacoes);
 		this._mensagemView.update("Negociação adicionada com sucesso");
