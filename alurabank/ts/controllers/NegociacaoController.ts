@@ -1,8 +1,7 @@
 import { NegociacoesView, MensagemView } from "../views/index";
 import { Negociacoes, Negociacao, NegociacaoParcial } from "../models/index";
-import { domInject } from "../helpers/decorators/index";
+import { domInject, throttle } from "../helpers/decorators/index";
 
-let time = 0;
 export class NegociacaoController {
 	@domInject("#data")
 	private _inputData: JQuery;
@@ -18,8 +17,8 @@ export class NegociacaoController {
 		this._negociacoesView.update(this._negociacoes);
 	}
 
-	adiciona(event: Event) {
-		event.preventDefault();
+	@throttle(1000)
+	adiciona() {
 		let data = new Date(this._inputData.val().replace(/-/g, ","));
 		if (!this._ehDiaUtil(data)) {
 			this._mensagemView.update(
@@ -45,6 +44,7 @@ export class NegociacaoController {
 		);
 	}
 
+	@throttle(1000)
 	importarDados() {
 		function isOk(res: Response) {
 			if (res.ok) {
@@ -54,28 +54,25 @@ export class NegociacaoController {
 			}
 		}
 
-		clearTimeout(time);
-		time = setTimeout(() => {
-			fetch("http://localhost:8080/dados")
-				.then(res => isOk(res))
-				.then(res => res.json())
-				.then((dados: NegociacaoParcial[]) => {
-					dados
-						.map(
-							dado =>
-								new Negociacao(
-									new Date(),
-									dado.vezes,
-									dado.montante
-								)
-						)
-						.forEach(negociacao =>
-							this._negociacoes.adiciona(negociacao)
-						);
-					this._negociacoesView.update(this._negociacoes);
-				})
-				.catch(err => console.log(err));
-		}, 500);
+		fetch("http://localhost:8080/dados")
+			.then(res => isOk(res))
+			.then(res => res.json())
+			.then((dados: NegociacaoParcial[]) => {
+				dados
+					.map(
+						dado =>
+							new Negociacao(
+								new Date(),
+								dado.vezes,
+								dado.montante
+							)
+					)
+					.forEach(negociacao =>
+						this._negociacoes.adiciona(negociacao)
+					);
+				this._negociacoesView.update(this._negociacoes);
+			})
+			.catch(err => console.log(err));
 	}
 }
 
