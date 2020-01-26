@@ -6,7 +6,7 @@ export class NegociacaoController {
 	private _inputQuantidade: JQuery;
 	private _inputValor: JQuery;
 	private _negociacoes = new Negociacoes();
-	private _negociacoesView = new NegociacoesView("#negociacoesView");
+	private _negociacoesView = new NegociacoesView("#negociacoesView", true);
 	private _mensagemView = new MensagemView("#mensagemView");
 
 	constructor() {
@@ -18,6 +18,7 @@ export class NegociacaoController {
 
 	adiciona(event: Event) {
 		event.preventDefault();
+		let data = new Date(this._inputData.val().replace(/-/g, ","));
 		const negociacao = new Negociacao(
 			new Date(this._inputData.val().replace(/-/g, ",")),
 			parseInt(this._inputQuantidade.val()),
