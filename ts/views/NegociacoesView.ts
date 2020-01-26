@@ -37,6 +37,9 @@ export class NegociacoesView extends View<Negociacoes> {
 					<td></td>
 				</tfoot>
 			</table>
+			<script>
+				alert("alert dento de NegociacoesView.ts")
+			</script>
 			`;
 	}
 }
