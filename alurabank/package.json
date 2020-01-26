@@ -10,7 +10,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"compiler": "tsc",
 		"watch": "tsc -w",
-		"server": "lite-server --baseDir=../typescript-course",
+		"server": "lite-server --baseDir=../alurabank",
 		"start": "concurrently \"npm run watch\" \"npm run server\""
 	},
 	"repository": {
