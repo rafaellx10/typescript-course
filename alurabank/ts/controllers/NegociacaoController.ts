@@ -2,6 +2,7 @@ import { NegociacoesView, MensagemView } from "../views/index";
 import { Negociacoes, Negociacao, NegociacaoParcial } from "../models/index";
 import { domInject, throttle } from "../helpers/decorators/index";
 import { NegociacaoService, HandlerFunction } from "../service/index";
+import { imprime } from "../helpers/index";
 
 export class NegociacaoController {
 	@domInject("#data")
@@ -34,15 +35,8 @@ export class NegociacaoController {
 			parseFloat(this._inputValor.val())
 		);
 
-		// console.log(
-		// 	`Data: ${negociacao.data},
-		// 	Quantidade: ${negociacao.quantidade},
-		// 	Valor: ${negociacao.valor},
-		// 	Volume: ${negociacao.volume}`
-		// );
-		negociacao.paraTexto();
 		this._negociacoes.adiciona(negociacao);
-		this._negociacoes.paraTexto();
+		imprime(negociacao, this._negociacoes);
 
 		this._negociacoesView.update(this._negociacoes);
 		this._mensagemView.update("Negociação adicionada com sucesso");
