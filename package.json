@@ -9,7 +9,9 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"compiler": "tsc",
-		"start": "tsc -w"
+		"watch": "tsc -w",
+		"server": "lite-server --baseDir=../typescript-course",
+		"start": "concurrently \"npm run watch\" \"npm run server\""
 	},
 	"repository": {
 		"type": "git",
@@ -24,6 +26,8 @@
 	"homepage": "https://github.com/rafaellx10/typescript-course#readme",
 	"devDependencies": {
 		"@types/jquery": "^2.0.42",
+		"concurrently": "^3.4.0",
+		"lite-server": "^2.3.0",
 		"typescript": "^2.3.2"
 	}
 }
