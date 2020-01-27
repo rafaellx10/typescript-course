@@ -20,7 +20,7 @@ export class NegociacaoController {
 		this._negociacoesView.update(this._negociacoes);
 	}
 
-	@throttle(1000)
+	@throttle()
 	adiciona() {
 		let data = new Date(this._inputData.val().replace(/-/g, ","));
 		if (!this._ehDiaUtil(data)) {
@@ -49,7 +49,7 @@ export class NegociacaoController {
 		);
 	}
 
-	@throttle(1000)
+	@throttle()
 	importarDados() {
 		const isOk: HandlerFunction = (res: Response) => {
 			if (res.ok) {
@@ -59,10 +59,18 @@ export class NegociacaoController {
 			}
 		};
 
-		this._service.obterNegociacoes(isOk).then(negociacoes => {
-			negociacoes.forEach((negociacao: Negociacao) =>
-				this._negociacoes.adiciona(negociacao)
-			);
+		this._service.obterNegociacoes(isOk).then(negociacoesParaImportar => {
+			const negociacoesJaImportar = this._negociacoes.paraArray();
+			negociacoesParaImportar
+				.filter(
+					negociacao =>
+						!negociacoesJaImportar.some(jaImportada =>
+							negociacao.ehIgual(jaImportada)
+						)
+				)
+				.forEach((negociacao: Negociacao) =>
+					this._negociacoes.adiciona(negociacao)
+				);
 			this._negociacoesView.update(this._negociacoes);
 		});
 	}
