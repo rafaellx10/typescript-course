@@ -20,7 +20,7 @@ export class Negociacao implements Imprimivel, Igualavel<Negociacao> {
 			Volume: ${this.volume}`);
 	}
 
-	ehIgual(Negociacao: Negociacao): boolean {
+	ehIgual(negociacao: Negociacao): boolean {
 		return (
 			this.data.getDate() == negociacao.data.getDate() &&
 			this.data.getMonth() == negociacao.data.getMonth() &&
