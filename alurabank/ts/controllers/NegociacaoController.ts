@@ -59,20 +59,25 @@ export class NegociacaoController {
 			}
 		};
 
-		this._service.obterNegociacoes(isOk).then(negociacoesParaImportar => {
-			const negociacoesJaImportar = this._negociacoes.paraArray();
-			negociacoesParaImportar
-				.filter(
-					negociacao =>
-						!negociacoesJaImportar.some(jaImportada =>
-							negociacao.ehIgual(jaImportada)
-						)
-				)
-				.forEach((negociacao: Negociacao) =>
-					this._negociacoes.adiciona(negociacao)
-				);
-			this._negociacoesView.update(this._negociacoes);
-		});
+		this._service
+			.obterNegociacoes(isOk)
+			.then(negociacoesParaImportar => {
+				const negociacoesJaImportar = this._negociacoes.paraArray();
+				negociacoesParaImportar
+					.filter(
+						negociacao =>
+							!negociacoesJaImportar.some(jaImportada =>
+								negociacao.ehIgual(jaImportada)
+							)
+					)
+					.forEach((negociacao: Negociacao) =>
+						this._negociacoes.adiciona(negociacao)
+					);
+				this._negociacoesView.update(this._negociacoes);
+			})
+			.catch(err => {
+				this._mensagemView.update(err.message);
+			});
 	}
 }
 
