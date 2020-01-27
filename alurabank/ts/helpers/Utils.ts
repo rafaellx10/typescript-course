@@ -1,5 +1,5 @@
-// import { Negociacao } from "../models/index";
+import { Imprimivel } from "../models/index";
 
-export function imprime(...objetos: any[]) {
+export function imprime(...objetos: Imprimivel[]) {
 	objetos.forEach(objeto => objeto.paraTexto());
 }
